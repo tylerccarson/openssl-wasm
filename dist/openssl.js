@@ -13,6 +13,4 @@ var Module=typeof OpenSSL!="undefined"?OpenSSL:{};var readyPromiseResolve,readyP
 }
 );
 })();
-
-// Okay, so we have an ES6 export
 export default OpenSSL;
