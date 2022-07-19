@@ -4,10 +4,6 @@ OPENSSL_DIR="openssl"
 
 cd ${OPENSSL_DIR} || exit 1
 
-# hmm ...
-# mkdir -p usr/local/ssl/
-# cp ../openssl.cnf usr/local/ssl/openssl.cnf
-
 LDFLAGS="\
   -s ENVIRONMENT='web'\
   -s FILESYSTEM=1\
@@ -19,8 +15,7 @@ LDFLAGS="\
   -s EXPORT_ES6=1\
   -s USE_ES6_IMPORT_META=0\
   -s ALLOW_MEMORY_GROWTH=1\
-  --embed-file ./openssl.cnf" # what does this do?
-#  --embed-file usr/local/ssl/openssl.cnf"
+  --embed-file ../openssl.cnf"
 
 if [[ $1 == "debug" ]]; then
   LDFLAGS="$LDFLAGS -s ASSERTIONS=1" # For logging purposes.
@@ -44,4 +39,8 @@ emconfigure ./Configure \
 
 sed -i '' 's/$(CROSS_COMPILE)//' Makefile
 emmake make -j `nproc` build_generated libssl.a libcrypto.a apps/openssl
-mv apps/openssl apps/openssl.js
+
+[ -d ../dist ] || mkdir ../dist
+
+mv apps/openssl ../dist/openssl.js
+mv apps/openssl.wasm ../dist/openssl.wasm
