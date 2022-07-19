@@ -42,6 +42,6 @@ emconfigure ./Configure \
   linux-x32 \
   -static\
 
-sed -i 's/$(CROSS_COMPILE)//' Makefile
+sed -i '' 's/$(CROSS_COMPILE)//' Makefile
 emmake make -j `nproc` build_generated libssl.a libcrypto.a apps/openssl
 mv apps/openssl apps/openssl.js
